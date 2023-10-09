@@ -77,3 +77,22 @@ char *_strcpy(char *dest, const char *src)
 
 	return (new_str);
 }
+/**
+ * _memcpy - copies a block of memory from src to dest
+ * @dest: pointer to the new string
+ * @src: pointer to the src string
+ * @n: an unsigned int
+ * Return: a pointer to a string
+*/
+void *_memcpy(void *dest, const void *src, size_t n)
+{
+	char *dstr = dest;
+	const char *str = src;
+
+	while (n--)
+	{
+		*dstr++ = *str++;
+	}
+	return (dest);
+}
+	

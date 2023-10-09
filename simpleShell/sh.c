@@ -1,23 +1,31 @@
 #include "main.h"
 
-#define BUFF_SIZE 514
-
+/**
+ * main - entry point
+ * 
+ * Return: Always 0 Success.
+*/
 int main(void)
 {
 	pid_t pid; 
 	char *command;
 	size_t command_size = BUFF_SIZE;
-	char *token;
 	char *args[128]; 
-	int i = 0, status;
+	int counter, status;
 	char cmd[] = "$ ";
 	ssize_t read_size;
+	// char *envp[];
 
 	command = (char *)malloc(command_size * sizeof(char));
 
 	while (1)
 	{
-		write(STDOUT_FILENO, &cmd, 2);
+		if (isatty(STDIN_FILENO))
+		{
+			/* only print $ prompt if input comes from terminal*/
+			write(STDOUT_FILENO, &cmd, 2);
+		}
+				
 		read_size =  getline(&command, &command_size, stdin);
 
 		if (read_size <= 0)
@@ -40,22 +48,8 @@ int main(void)
 		}
 		else if (pid == 0)
 		{
-			i = 0;
-			
-			token = strtok(command, " \n");
-			while (token != NULL)
-			{
-				args[i++] = token;
-				token = strtok(NULL, " \n");
-			}
-			args[i] = NULL;
-
-			/* execute commands */
-			if (execve(args[0], args, NULL) == -1)
-			{
-				perror("Failed to execute");
-				exit(1);
-			}
+			command_parser(command, args, &counter);
+			command_executor(args);
 		}
 		else
 		{
