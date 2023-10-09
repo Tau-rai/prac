@@ -21,11 +21,14 @@ size_t _strlen(const char *str)
  * @str2: pointer a string
  * Return: 0 Success.
  */
-int _strcmp(const char *str1, const char *str2) {
-	while (*str1 != '\0' && *str2 != '\0') {
-		if (*str1 != *str2) {
+int _strcmp(const char *str1, const char *str2)
+{
+	while (*str1 != '\0' && *str2 != '\0')
+	{
+		if (*str1 != *str2)
+
 			return (*str1 - *str2);
-		}
+
 		str1++;
 		str2++;
 	}
@@ -52,7 +55,7 @@ char *_strdup(const char *src)
 	if (dest == NULL)
 		return (NULL);
 
-	_strcpy(dest , src);
+	_strcpy(dest, src);
 
 	return (dest);
 }
@@ -61,7 +64,7 @@ char *_strdup(const char *src)
  * _strcpy - copies one string into another
  * @dest: pointer to a string
  * @src: pointer to a source string
- * Return: new string 
+ * Return: new string
  */
 char *_strcpy(char *dest, const char *src)
 {
@@ -83,7 +86,7 @@ char *_strcpy(char *dest, const char *src)
  * @src: pointer to the src string
  * @n: an unsigned int
  * Return: a pointer to a string
-*/
+ */
 void *_memcpy(void *dest, const void *src, size_t n)
 {
 	char *dstr = dest;
@@ -95,4 +98,4 @@ void *_memcpy(void *dest, const void *src, size_t n)
 	}
 	return (dest);
 }
-	
+

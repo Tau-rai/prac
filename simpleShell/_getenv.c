@@ -1,16 +1,20 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "main.h"
 
-extern char **environ;
-
-char *_getenv(const char *name) {
+/**
+ * _getenv - gets the environ variable
+ * @name: pointer to the environ variable
+ * Return: an environ variable
+ */
+char *_getenv(const char *name)
+{
 	char **env = environ;
-	
+	char *env_var;
+	const char *env_name;
+
 	while (*env)
 	{
-		char *env_var = *env;
-		const char *env_name = name;
+		env_var = *env;
+		env_name = name;
 		while (*env_var == *env_name && *env_var != '=' && *env_name != '\0')
 		{
 			env_var++;
@@ -22,6 +26,6 @@ char *_getenv(const char *name) {
 		}
 		env++;
 	}
-	return NULL;
+	return (NULL);
 }
 

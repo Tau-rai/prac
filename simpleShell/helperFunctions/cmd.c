@@ -45,8 +45,9 @@ int main(void)
 		else
 		{
 			printf("Error: Failed to fork.\n");
-}
-	free(args);
-	free(command);
-	return 0;
+		}
+		free(args);
+		free(command);
+		return 0;
+	}
 }

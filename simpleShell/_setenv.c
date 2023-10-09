@@ -1,45 +1,67 @@
 #include "main.h"
 
+int _setenv(const char *name, const char *value, int overwrite);
 /**
- * _setenv - sets the environment of a var name to a specified value
- * @name: variable name of the environ
- * @value: value of the name
+ * _setenv - changes or add an enviro variaable
+ * @name: pointer to the name of the env
+ * @value: pointer to the value of the env
  * @overwrite: an integer value
  * Return: Always 0 Success.
-*/
+ */
 int _setenv(const char *name, const char *value, int overwrite)
 {
-  // size_t env_len;
-  // char *new_env;
-  char *env = getenv(name); 
+	size_t env_len = 0;
+	size_t len;
+	char *env, *p;
+	char **new_env;
 
-  if (env == NULL || overwrite)
-  {
-    size_t env_len = strlen(name) + strlen(value) + 2; 
-    /* Allocate memory for the new environment variable */
-    char *new_env = malloc(env_len);
+	if (name == NULL || name[0] == '\0' || _strchr(name, '=') != NULL)
+	{
+		return (-1);
+	}
 
-    if (new_env == NULL)
-    {
-      return (-1);
-    }
+	len = _strlen(name) + _strlen(value) + 2;
+	env = malloc(len);
+	if (env == NULL)
+	{
+		return (-1);
+	}
 
-    /* Copy the name and value into the new environment variable */
-    memcpy(new_env, name, strlen(name));
-    new_env[strlen(name)] = '=';
-    memcpy(new_env + strlen(name) + 1, value, strlen(value));
-    new_env[env_len - 1] = '\0'; 
+	p = env;
+	while (*name != '\0')
+	{
+		*p++ = *name++;
+	}
+	*p++ = '=';
+	while (*value != '\0')
+	{
+		*p++ = *value++;
+	}
+	*p = '\0';
 
-    /* Set the new environment variable using the setenv function */
-    if (_setenv(name, new_env, 1) != 0)
-    {
-      free(new_env);
-      return (-1);
-    }
+	if (_getenv(name) != NULL && !overwrite)
+	{
+		free(env);
+		return (0);
+	}
 
-    free(new_env); 
-  }
+	while (environ[env_len] != NULL)
+	{
+		env_len++;
+	}
 
-  return (0);
+	new_env = malloc((env_len + 2) * sizeof(char *));
+	if (new_env == NULL)
+	{
+		free(env);
+		return (-1);
+	}
 
+	_memcpy(new_env, environ, env_len * sizeof(char *));
+	new_env[env_len] = env;
+	new_env[env_len + 1] = NULL;
+
+	environ = new_env;
+
+	return (0);
 }
