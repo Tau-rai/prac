@@ -26,15 +26,15 @@ char *_strchr(const char *str, int c)
  * @dest: destination string
  * @src: source string
  * Return: pointer to the new string
-*/
+ */
 char *_strcat(char *dest, const char *src)
 {
-    char *ptr = dest + _strlen(dest);
-    
+	char *ptr = dest + _strlen(dest);
+
 	while (*src != '\0')
 	{
-        *ptr++ = *src++;
-    }
-    *ptr = '\0';
-    return (dest);
+		*ptr++ = *src++;
+	}
+	*ptr = '\0';
+	return (dest);
 }

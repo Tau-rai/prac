@@ -42,6 +42,6 @@ void command_executor(char **args, const char *path)
 		token = strtok(NULL, ":");
 	}
 	write(STDERR_FILENO, args[0], _strlen(args[0]));
-	write(STDERR_FILENO, ": not found\n", 12);
+	write(STDERR_FILENO, ": command not found\n", 12);
 	exit(1);
 }
