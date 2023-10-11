@@ -10,38 +10,38 @@ void command_executor(char **args, const char *path)
 {
 	char *token;
 	char *full_path = NULL;
-	size_t len;
 
-	token = strtok(_strdup(path), ":");
-
-	while (token != NULL)
+	/* if args[0] contains a slash, attempt to execute it directly*/
+	if (_strchr(args[0], '/'))
 	{
-		len = _strlen(token) + _strlen(args[0]) + 2;
-		full_path = (char *)malloc(len);
-
-		if (full_path == NULL)
+		if (execve(args[0], args, environ) == -1)
 		{
-			perror("Error: Failed to allocate memory");
+			perror("Error: Failed to execute");
 			exit(1);
 		}
-		_strcpy(full_path, token);
-		_strcat(full_path, "/");
-		_strcat(full_path, args[0]);
+	}
+	else
+	{
+		token = strtok(_strdup(path), ":");
 
-		/* check if executable exists in the directory*/
-		if (access(full_path, X_OK) == 0)
+		while (token != NULL)
 		{
-			/* execute command */
-			if (execve(full_path, args, NULL) == -1)
+			full_path = get_path(token, args[0]);
+			/* check if executable exists in the directory*/
+			if (access(full_path, X_OK) == 0)
 			{
-				perror("Error: Failed to execute");
-				exit(1);
+				/* execute command */
+				if (execve(full_path, args, NULL) == -1)
+				{
+					perror("Error: Failed to execute");
+					exit(1);
+				}
 			}
+			free(full_path);
+			token = strtok(NULL, ":");
 		}
-		free(full_path);
-		token = strtok(NULL, ":");
 	}
 	write(STDERR_FILENO, args[0], _strlen(args[0]));
-	write(STDERR_FILENO, ": command not found\n", 12);
+	write(STDERR_FILENO, ": command not found\n", 21);
 	exit(1);
 }

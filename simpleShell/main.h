@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stddef.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 #define BUFF_SIZE 514
 
@@ -25,6 +26,7 @@ char *_strcat(char *dest, const char *src);
 void handle_env(void);
 void *_memcpy(void *dest, const void *src, size_t n);
 void fork_execute(char *command);
+char *get_path(const char *dir, const char *command);
 int _setenv(const char *name, const char *value, int overwrite);
 void command_parser(char *command, char **args, int *counter);
 void command_executor(char **args, const char *path);

@@ -1,6 +1,5 @@
 #include "main.h"
 
-int main(void);
 /**
  * main - entry point
  * Return: Always 0 Success.
@@ -41,11 +40,9 @@ int main(void)
 			handle_env(); /* handle env command */
 		}
 		else
-		{
 			fork_execute(command);
-		}
-	}
 
+	}
 	free(command);
 
 	return (0);
