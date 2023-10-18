@@ -7,15 +7,25 @@
  * @counter: counts the args
  * Return: Nothing.
  */
-void command_parser(char *command, char **args, int *counter)
+int command_parser(char *command, char **args, int *counter)
 {
-	char *token = strtok(command, " \n");
+	char *token;
+
+	if (command == NULL || args == NULL || counter == NULL)
+				return (-1);
+
+	token = _strtok(command, " \n");
 	*counter = 0;
 
-	while (token != NULL && *counter < 127)
+	while (token != NULL)
 	{
+		if (*counter >=  127)
+			return (-1);
+
 		args[(*counter)++] = token;
-		token = strtok(NULL, " \n");
+		token = _strtok(NULL, " \n");
 	}
 	args[*counter] = NULL;
+
+	return (0);
 }

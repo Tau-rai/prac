@@ -6,7 +6,7 @@
  * @path: value of the PATH environ variable
  * Return: Nothing
  */
-void command_executor(char **args, const char *path)
+void command_executor(char **args, const char *path, char *argv[])
 {
 	char *token;
 	char *full_path = NULL;
@@ -16,13 +16,13 @@ void command_executor(char **args, const char *path)
 	{
 		if (execve(args[0], args, environ) == -1)
 		{
-			perror("Error: Failed to execute");
+			print_error(argv, args, ": No such file or directory\n");
 			exit(1);
 		}
 	}
 	else
 	{
-		token = strtok(_strdup(path), ":");
+		token = _strtok(_strdup(path), ":");
 
 		while (token != NULL)
 		{
@@ -33,13 +33,14 @@ void command_executor(char **args, const char *path)
 				/* execute command */
 				if (execve(full_path, args, NULL) == -1)
 				{
-					perror("Error: Failed to execute");
+					print_error(argv, args, ": No such file or directory\n");
 					exit(1);
 				}
 			}
 			free(full_path);
-			token = strtok(NULL, ":");
+			token = _strtok(NULL, ":");
 		}
+		free(token);
 	}
 	write(STDERR_FILENO, args[0], _strlen(args[0]));
 	write(STDERR_FILENO, ": command not found\n", 21);

@@ -2,11 +2,13 @@
 
 /**
  * main - entry point
+ * @argv: array of strings
+ * @argc: number of arguments
  * Return: Always 0 Success.
  */
-int main(void)
+int main(__attribute__((unused))int argc, char *argv[])
 {
-	char *command;
+	char *command = NULL;
 	size_t command_size = BUFF_SIZE;
 	char cmd[] = "$ ";
 	ssize_t r_size;
@@ -21,7 +23,7 @@ int main(void)
 			write(STDOUT_FILENO, &cmd, 2);
 		}
 
-		r_size =  getline(&command, &command_size, stdin);
+		r_size = (ssize_t)_getline(&command, &command_size, stdin);
 
 		if (r_size <= 0)
 		{
@@ -30,18 +32,13 @@ int main(void)
 
 		command[_strlen(command) - 1] = '\0';
 
-		if (_strcmp(command, "exit") == 0)
-		{
-			break; /*handle exit */
-		}
-		else if (_strcmp(command, "env") == 0)
-		{
+		
+        handle_command(command, argv);
+        
+		free(command);
 
-			handle_env(); /* handle env command */
-		}
-		else
-			fork_execute(command);
-
+		command = NULL;
+		command_size = 0;
 	}
 	free(command);
 

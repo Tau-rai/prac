@@ -5,7 +5,7 @@
  * @command: exxcutables from the terminal
  * Return:nothing
  */
-void fork_execute(char *command)
+void fork_execute(char *command, char *argv[])
 {
 	pid_t pid;
 	char *path;
@@ -22,7 +22,7 @@ void fork_execute(char *command)
 	{
 		path = _getenv("PATH");
 		command_parser(command, args, &counter);
-		command_executor(args, path);
+		command_executor(args, path, argv);
 	}
 	else
 	{
